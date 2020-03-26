@@ -4,81 +4,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BilSortering
+namespace _26Mars_Uppgift_1
 {
     class Program
     {
-        static void PrintList(List<Car> listToPrint)
+        static void BubbleSort(List<int> sort_list)
         {
-            foreach (Car c in listToPrint)
+            bool list_sorted = false;
+            int a = 0;
+            while (list_sorted == false)
             {
-                Console.WriteLine("[Brand:] " + c.brand + " [Model:] " + c.model + " [Year:] " + c.year);
+
+                list_sorted = true;
+                for (int i = 0; i < sort_list.Count - 1 - a; i++)
+                {
+                    if (sort_list[i] > sort_list[i + 1])
+                    {
+                        int temp = sort_list[i];
+                        sort_list[i] = sort_list[i + 1];
+                        sort_list[i + 1] = temp;
+                        list_sorted = false;
+                    }
+                }
+                a++;
             }
         }
 
+
         static void Main(string[] args)
         {
-            Car CarA = new Car("Volvo", "XC90", 2020);
-            Car CarB = new Car("Mazda", "626", 1960); 
-            Car CarC = new Car("Saab", "93", 1999);
-            Car CarD = new Car("Porsche", "911", 2012);
+            Random rand = new Random(2); //bestämmer en "seed" för att se till så att listan slumpas likadant varje gång programmet startas. 
 
-            List<Car> CarList = new List<Car>();
-            CarList.Add(CarA);
-            CarList.Add(CarB);
-            CarList.Add(CarC);
-            CarList.Add(CarD);
+            List<int> list = new List<int>();
 
-            Console.WriteLine("Skriver ut osorterad lista...");
-            Console.WriteLine("");
-            PrintList(CarList);
-            Console.WriteLine("");
-
-            Console.WriteLine("Sorterar listan baserat på årsmodell...");
-            CarList.Sort();
-            Console.WriteLine("...klarsorterad\n");
-
-            Console.WriteLine("Skriver ut sorterad lista baserat på årsmodell...");
-            Console.WriteLine("");
-            PrintList(CarList);
-            Console.WriteLine("");
-
-
-
-
-            
-            if (CarA > CarB)
+            for (int i = 0; i < 1000; i++) // 1000 heltal matas in i listan "list".
             {
-                Console.WriteLine("");
-            }
-            else if (CarA < CarB)
-            {
-                Console.WriteLine("");
+                list.Add(rand.Next(0, 100000));
             }
 
-            if (CarA == CarB)
-            {
-                Console.WriteLine("");
-            }
-
-            if (CarA == CarD)
-            {
-                Console.WriteLine("");
-            }
-
-            if (CarB != CarC)
-            {
-                Console.WriteLine("");
-            }
-
-
-            
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Console.WriteLine();
-
+            var watch = System.Diagnostics.Stopwatch.StartNew(); //Tidtagningen påbörjas.
+            BubbleSort(list); //Sorteringen med BubbleSort genomförs.
+            watch.Stop(); //Tidtagningen avslutas då BubbleSort har utförts. 
+            var elapsedms = watch.ElapsedMilliseconds;
+            Console.WriteLine("Det tog " + elapsedms + " millisekunder att sortera listan innehållande " + list.Count + " heltal med hjälp av bubblesort.");
             Console.ReadLine();
         }
     }
